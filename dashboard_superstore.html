@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Superstore Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body {
+    font-family: "Segoe UI", Arial;
+    background: linear-gradient(135deg, #ece9ff, #d9e8ff);
+    padding: 25px;
+    color: #2c3e50;
+}
+
+h1 {
+    text-align:center;
+    margin-bottom:30px;
+    font-weight:600;
+    color:#1f2d3d;
+}
+
+.card {
+    background:white;
+    padding:18px;
+    border-radius:15px;
+    margin:10px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    text-align:center;
+    transition:0.2s;
+}
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow:0 6px 16px rgba(0,0,0,0.12);
+}
+
+.grid {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.section {
+    background:white;
+    padding:25px;
+    border-radius:18px;
+    margin-top:25px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+    transition:0.2s;
+}
+.section:hover {
+    transform: translateY(-3px);
+}
+
+canvas {
+    max-height:240px !important;
+    margin-top:20px;
+}
+
+/* Elegant palette */
+</style>
+</head>
+
+<body>
+
+<h1>Superstore Dashboard</h1>
+
+<!-- KPI -->
+<div class="grid">
+<div class="card">Total Transaksi<br><b>5009</b></div>
+<div class="card">Jumlah Pelanggan<br><b>793</b></div>
+<div class="card">Total Penjualan<br><b>2,295,274.15</b></div>
+<div class="card">Rata-rata Profit<br><b>28.63</b></div>
+<div class="card">Penjualan Tertinggi<br><b>22638.48</b></div>
+<div class="card">Profit Terendah<br><b>-6599.98</b></div>
+</div>
+
+<!-- STATE -->
+<div class="section">
+<h2>Total Penjualan per State</h2>
+<canvas id="stateChart"></canvas>
+</div>
+
+<!-- PRODUCT -->
+<div class="section">
+<h2>Top 5 Produk Terlaris</h2>
+<canvas id="productChart"></canvas>
+</div>
+
+<!-- CUSTOMER -->
+<div class="section">
+<h2>Top 5 Pelanggan</h2>
+<canvas id="customerChart"></canvas>
+</div>
+
+<!-- SHIP -->
+<div class="section">
+<h2>Analisis Ship Mode</h2>
+<canvas id="shipChart"></canvas>
+</div>
+
+<script>
+// DATA
+const stateLabels = ["California","New York","Texas","Washington","Pennsylvania"];
+const stateSales = [457687.68,310876.20,170187.98,138641.29,116395.24];
+
+const prodLabels = ["Staples","Staple envelope","Easy-staple paper","Staples in misc. colors","KI Adjustable-Height Table"];
+const prodQty = [215,170,150,86,74];
+
+const custLabels = ["Sean Miller","Tamara Chand","Raymond Buch","Tom Ashbrook","Adrian Barton"];
+const custSales = [25043.07,19052.22,15117.35,14595.62,14473.57];
+
+const shipLabels = ["First Class","Same Day","Second Class","Standard Class"];
+const shipOrders = [1538,543,1945,5968];
+
+// PREMIUM COLORS
+const elegantColors = [
+    "#2E86DE", // royal blue
+    "#20B2AA", // teal soft
+    "#9B59B6", // purple
+    "#F4C542", // gold
+    "#16A085", // emerald
+];
+
+const elegantSoft = elegantColors.map(c => c + "55");
+
+// STATE CHART
+new Chart(document.getElementById("stateChart"), {
+    type: "bar",
+    data: {
+        labels: stateLabels,
+        datasets: [{
+            label: "Total Penjualan",
+            data: stateSales,
+            backgroundColor: elegantSoft[0],
+            borderColor: elegantColors[0],
+            borderWidth: 2,
+            borderRadius: 8
+        }]
+    },
+    options: { responsive:true, maintainAspectRatio:false }
+});
+
+// PRODUCT CHART
+new Chart(document.getElementById("productChart"), {
+    type: "bar",
+    data: {
+        labels: prodLabels,
+        datasets: [{
+            label: "Quantity Sold",
+            data: prodQty,
+            backgroundColor: elegantSoft,
+            borderColor: elegantColors,
+            borderWidth: 2,
+            borderRadius: 8
+        }]
+    },
+    options: { responsive:true, maintainAspectRatio:false }
+});
+
+// CUSTOMER CHART
+new Chart(document.getElementById("customerChart"), {
+    type: "bar",
+    data: {
+        labels: custLabels,
+        datasets: [{
+            label: "Total Belanja",
+            data: custSales,
+            backgroundColor: elegantSoft[2],
+            borderColor: elegantColors[2],
+            borderWidth: 2,
+            borderRadius: 8
+        }]
+    },
+    options: { responsive:true, maintainAspectRatio:false }
+});
+
+// SHIP CHART
+new Chart(document.getElementById("shipChart"), {
+    type: "pie",
+    data: {
+        labels: shipLabels,
+        datasets: [{
+            data: shipOrders,
+            backgroundColor: elegantColors
+        }]
+    },
+    options: { responsive:true }
+});
+</script>
+
+</body>
+</html>
